@@ -6,15 +6,15 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
   if (typeof localStorage !== 'undefined') {
     const token = localStorage.getItem('userToken');
-    const role = localStorage.getItem('userRole'); // تأكد أنك تخزن الدور في localStorage بعد تسجيل الدخول
+    const role = localStorage.getItem('userRole');
 
-    if (token !== null && role === 'admin') {
+    if (token && role === 'admin') {
       return true;
     } else {
-      _Router.navigate(['/login']); // أو أي صفحة أخرى مناسبة
+      _Router.navigate(['/login']);
       return false;
     }
-  } else {
-    return false;
   }
+
+  return false;
 };

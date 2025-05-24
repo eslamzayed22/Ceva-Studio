@@ -16,6 +16,7 @@ export const routes: Routes = [
         { path: 'home', loadComponent: () => import('./components/home/home.component').then(c => c.HomeComponent) },
         { path: 'products', loadComponent: () => import('./components/products/products.component').then(c => c.ProductsComponent) },
         {path:'categories', loadComponent:()=> import('./components/categories/categories.component').then((c)=> c.CategoriesComponent)},
+        {path:'about', loadComponent:()=> import('./components/about/about.component').then((c)=> c.AboutComponent)},
         { path: 'details/:id', loadComponent: () => import('./components/details/details.component').then(c => c.DetailsComponent) },
         { path: 'cart', loadComponent: () => import('./components/cart/cart.component').then(c => c.CartComponent), canActivate: [authGuard] },
         { path: 'wishlist', loadComponent: () => import('./components/wishlist/wishlist.component').then(c => c.WishlistComponent), canActivate: [authGuard] },
@@ -37,7 +38,7 @@ export const routes: Routes = [
     },
     
     {
-        path: 'admin',
+        path: '',
         component: AdminLayoutComponent,
         canActivate: [adminGuard],
         children: [
