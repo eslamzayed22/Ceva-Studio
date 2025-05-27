@@ -59,7 +59,7 @@
             </button>
             <!-- dark light mode dropdown  -->
             <div id="dropdownTheme" [class.hidden]="!isThemeDropdownOpen"
-                class="absolute top-[60px] right=[10px] z-50 w-25 bg-white dark:bg-black  border border-gray-300 dark:border-[#1A1A1D] rounded-lg shadow">
+                class="absolute hidden top-[60px] right=[10px] z-50 w-25 bg-white dark:bg-black  border border-gray-300 dark:border-[#1A1A1D] rounded-lg shadow">
                 <ul class="py-2 text-sm text-white">
                     <li>
                         <button onclick="setTheme('light')"
@@ -82,7 +82,7 @@
 
             <!-- User Dropdown -->
             <div id="user-dropdown" [class.hidden]="!isUserDropdownOpen"
-                class="absolute top-[70px]  z-50 text-base list-none bg-white rounded-lg shadow dark:bg-black border border-gray-300 dark:border-[#1A1A1D] w-48">
+                class="absolute hidden top-[70px] z-50 text-base list-none bg-white rounded-lg shadow dark:bg-black border border-gray-300 dark:border-[#1A1A1D] w-48">
                 <div class="px-4 py-3">
                     @if (_AuthService.isLoggedIn()) {
                     <span
@@ -132,7 +132,7 @@
             </button>
 
             <div id="main-menu" [class.hidden]="!isDropdownOpen"
-                class="absolute top-10 mt-2 z-50 text-base list-none bg-white rounded-lg shadow dark:bg-black border border-gray-300 dark:border-[#1A1A1D] w-40">
+                class="absolute hidden top-10 mt-2 z-50 text-base list-none bg-white rounded-lg shadow dark:bg-black border border-gray-300 dark:border-[#1A1A1D] w-40">
                 <ul class="p-2 text-center"
                     aria-labelledby="user-menu-button mx-10 ">
                     <li><a href routerLink="/home"
