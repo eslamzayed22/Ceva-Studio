@@ -1,5 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -8,50 +15,47 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private readonly _AuthService = inject(AuthService)
-  private readonly _FormBuilder = inject(FormBuilder)
-  private readonly _Router = inject(Router)
+  private readonly _AuthService = inject(AuthService);
+  private readonly _FormBuilder = inject(FormBuilder);
+  private readonly _Router = inject(Router);
 
-  msgError:string =""
+  msgError: string = '';
 
-  loginForm:FormGroup = this._FormBuilder.group ({
-    email: [null, [Validators.required , Validators.email] ],
-    password: [null , [Validators.required , Validators.pattern(/^\w{6,}$/)]],
-  })
-  
+  loginForm: FormGroup = this._FormBuilder.group({
+    email: [null, [Validators.required, Validators.email]],
+    password: [null, [Validators.required, Validators.pattern(/^\w{6,}$/)]],
+  });
 
-  loginSubmit():void {
-    if(this.loginForm.valid){
+  loginSubmit(): void {
+    if (this.loginForm.valid) {
       this._AuthService.setloginForm(this.loginForm.value).subscribe({
-        next:(res)=>{
-        console.log(res);
-        if(res.token){
-          localStorage.setItem('userToken', res.token);
+        next: (res) => {
+          console.log(res);
+          if (res.token) {
+            localStorage.setItem('username', res.data.name);
+            this._AuthService.saveUserData(
+              res.token,
+              res.data.name,
+              res.data.role
+            );
 
-          // 🟩 احفظ الدور
-          localStorage.setItem('userRole', res.data.role);
-
-          this._AuthService.saveUserData();
-
-          // 🟩 تحويل حسب الدور
-          if (res.data.role === 'admin') {
-            this._Router.navigate(['/dashboard']);
-          } else {
-            this._Router.navigate(['/home']);
+            if (res.data.role === 'admin') {
+              this._Router.navigate(['/dashboard']);
+            } else {
+              this._Router.navigate(['/home']);
+            }
           }
-        }
-      },error:(err)=>{
-          console.log(err)
-          this.msgError = err.error.message
-        }
-      })
-    }
-    else {
-      this.loginForm.markAllAsTouched()
+        },
+        error: (err) => {
+          console.log(err);
+          this.msgError = err.error.message;
+        },
+      });
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   }
-  
 }

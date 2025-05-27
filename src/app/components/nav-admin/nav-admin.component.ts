@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-admin',
@@ -9,14 +10,25 @@ import { RouterLink } from '@angular/router';
   templateUrl: './nav-admin.component.html',
   styleUrl: './nav-admin.component.scss',
 })
-export class NavAdminComponent {
+export class NavAdminComponent implements OnInit {
   readonly _AuthService = inject(AuthService);
 
-  
   isUserDropdownOpen = false;
   isThemeDropdownOpen = false;
   isDropdownOpen = false;
-  
+
+  username: string | null = null;
+  userRole: string | null = null;
+
+  private userSub!: Subscription;
+
+  ngOnInit() {
+    this.username = localStorage.getItem('username');
+    this.userSub = this._AuthService.userData$.subscribe((data) => {
+      this.userRole = data?.role ?? null;
+    });
+  }
+
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
@@ -37,7 +49,7 @@ export class NavAdminComponent {
       this.isUserDropdownOpen = false;
       this.isDropdownOpen = false;
     }
-    
+
     if (
       !target.closest('#dropdownThemeButton') &&
       !target.closest('#dropdownTheme')

@@ -1,1 +1,33 @@
-<p>wishlist works!</p>
+<!-- Overlay -->
+@if (isOpen) {
+<div
+    class="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
+    (click)="closeWishlist()"></div>
+}
+
+<!-- Side Panel -->
+<div
+    class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white dark:bg-[#0d0d0d] z-50 shadow-lg transition-transform duration-300 p-8"
+    [style.transform]="isOpen ? 'translateX(0)' : 'translateX(100%)'">
+    <div class="p-4 flex justify-between items-center border-b dark:text-white">
+        <h2 class="text-xl font-bold uppercase">Your Wishlist</h2>
+        <button (click)="closeWishlist()"
+            class="text-gray-600 hover:text-black text-xl">&times;</button>
+    </div>
+
+    <div class="p-4 space-y-4 overflow-y-auto h-[calc(100%-150px)]">
+        @for (item of wishlistItems; track item.id) {
+        <div class="flex items-center gap-4 dark:text-white">
+            <img [src]="item.image" alt="product"
+                class="w-16 h-16 object-cover rounded">
+            <div class="flex-1">
+                <p class="font-medium">{{ item.name }}</p>
+                <p class="text-sm text-gray-500">${{ item.price }} x {{
+                    item.quantity }}</p>
+            </div>
+            <button (click)="removeItem(item)"
+                class="text-red-500 text-sm">Remove</button>
+        </div>
+        }
+    </div>
+</div>

@@ -1,1 +1,118 @@
-<p>home works!</p>
+<section class>
+    <div
+        class="overflow-hidden pb-0 lg:pb-10 ">
+        <!-- الشريط العلوي -->
+        <div
+            class="bg-black text-white tracking-[0.2rem] whitespace-nowrap overflow-hidden absolute top-[130px] w-full flex justify-center ">
+            <div class="animate-marquee inline-block pb-2">
+                <p class="second-font text-4xl leading-5 ">new season - new
+                    season - new
+                    season - new season - new season - new season - new season -
+                    new season - new season - new season new season - new season
+                    - new season - new season - new season - new season - new
+                    season - new season - new season - new season - new season -
+                    new season - new season - new season - new season - new
+                    season - new season - new season - new season - new season -
+                    new season - new season </p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-between items-center gap-8 p-8">
+            <!-- Main pic-->
+            <div class="w-full lg:w-[28%] xl:w-[33%] 2xl:w-[28%]">
+                <img src="../../../assets/yellow-white-tshirt.jpg" alt="model"
+                    class="rounded-md shadow-md w-full">
+            </div>
+
+            <!-- Text-->
+            <div
+                class="w-full lg:w-[42%] text-center md:text-left md:ps-12 second-font dark:text-white p-2">
+                <h2 class="text-6xl font-light mb-4 leading-[1.5] lg:mt-5">New
+                    <br>
+                    <span
+                        class="font-semibold">Collection</span></h2>
+                <h3 class="text-4xl font-semibold mb-2">Fashion</h3>
+                <p
+                    class="text-gray-600 dark:text-gray-400 mb-4 italic lg:w-[70%]">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Quis ipsum suspendisse ultrices gravida.
+                </p>
+                <button
+                    class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black px-6 py-2 font-sans">Read
+                    More</button>
+            </div>
+        </div>
+
+        <!-- صورة الملابس -->
+        <div
+            class="w-full md:w-[25%] absolute top-[380px] left-[500px] sm:hidden  2xl:block">
+            <img src="../../../assets/BW-img.jpg" alt="clothes"
+                class="rounded-md shadow-md">
+        </div>
+
+    </div>
+</section>
+
+<section
+    class="bg-gray-100 text-black dark:bg-black dark:text-white hidden lg:block my-10">
+    <div class="text-center py-10 ">
+        <h2
+            class="text-6xl font-bold uppercase mb-4 tracking-wider font-second">Brilliance
+            in Simplicity</h2>
+        <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto mb-8">
+            This season isn't just about fashion — it's about making a
+            statement. Discover bold pieces,
+            fresh designs, and limited editions that set you apart.
+        </p>
+        <a href="#"
+            class="inline-block bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105">
+            Explore the Drop
+        </a>
+    </div>
+</section>
+
+<section class="bg-white dark:bg-[#0d0d0d]">
+    <div class="container p-10">
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
+            @for (product of productList(); track product.id)
+            {
+            <div
+                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative">
+                <a href="#">
+                    <img class="pb-8 rounded-t-lg"
+                        [src]="product.imageCover"
+                        [alt]="product.title" />
+                </a>
+                @if (product.price > 1000) { 
+                    <div
+                    class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
+                    -25%
+                    </div>
+                }
+                <div
+                    class="icon-heart absolute top-[0.8rem] right-[1rem] cursor-pointer">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+                <div class="px-5 pb-5">
+                    <a href="#">
+                        <h5
+                            class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{product.title}}</h5>
+                    </a>
+                    <div class="flex items-center mt-2.5 mb-5">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="text-3xl font-bold text-gray-900 dark:text-white">{{product.price
+                            | currency}}</span>
+                        <a href="#"
+                            class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center uppercase">Add
+                            to basket</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>

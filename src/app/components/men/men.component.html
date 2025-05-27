@@ -1,0 +1,58 @@
+<section class="bg-white dark:bg-[#0d0d0d]">
+    <div
+        class="z-40 bg-black text-white tracking-[0.2rem] whitespace-nowrap overflow-hidden absolute top-[130px] w-full flex justify-center ">
+        <div class="animate-marquee inline-block pb-2">
+            <p class="second-font text-4xl leading-5 ">new season - new
+                season - new
+                season - new season - new season - new season - new season -
+                new season - new season - new season new season - new season
+                - new season - new season - new season - new season - new
+                season - new season - new season - new season - new season -
+                new season - new season - new season - new season - new
+                season - new season - new season - new season - new season -
+                new season - new season </p>
+        </div>
+    </div>
+    <div class="container p-10 mt-20">
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
+            @for (product of productList(); track product.id)
+            {
+            <div
+                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative">
+                <a href="#">
+                    <img class="pb-8 rounded-t-lg"
+                        [src]="product.imageCover"
+                        [alt]="product.title" />
+                </a>
+                @if (product.price > 1000) {
+                <div
+                    class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
+                    -25%
+                </div>
+                }
+                <div
+                    class="icon-heart absolute top-[0.8rem] right-[1rem] cursor-pointer">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+                <div class="px-5 pb-5">
+                    <a href="#">
+                        <h5
+                            class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{product.title}}</h5>
+                    </a>
+                    <div class="flex items-center mt-2.5 mb-5">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="text-3xl font-bold text-gray-900 dark:text-white">{{product.price
+                            | currency}}</span>
+                        <a href="#"
+                            class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center uppercase">Add
+                            to basket</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>

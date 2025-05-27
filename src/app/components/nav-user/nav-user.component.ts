@@ -1,20 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
+import { CartComponent } from '../cart/cart.component';
+import { WishlistComponent } from "../wishlist/wishlist.component";
 
 @Component({
   selector: 'app-nav-user',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CartComponent, WishlistComponent],
   templateUrl: './nav-user.component.html',
   styleUrl: './nav-user.component.scss'
 })
-export class NavUserComponent {
+export class NavUserComponent implements OnInit {
   readonly _AuthService = inject(AuthService)
 
   isUserDropdownOpen = false;
   isThemeDropdownOpen = false;
   isDropdownOpen = false;
+  username: string | null = null;
+
+ngOnInit() {
+  this.username = localStorage.getItem('username');
+}
   
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

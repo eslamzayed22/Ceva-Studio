@@ -14,14 +14,16 @@ export const routes: Routes = [
         children: [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', loadComponent: () => import('./components/home/home.component').then(c => c.HomeComponent) },
-        { path: 'products', loadComponent: () => import('./components/products/products.component').then(c => c.ProductsComponent) },
+        { path: 'men', loadComponent: () => import('./components/men/men.component').then(c => c.MenComponent) },
+        { path: 'women', loadComponent: () => import('./components/women/women.component').then(c => c.WomenComponent) },
+        // { path: 'products', loadComponent: () => import('./components/products/products.component').then(c => c.ProductsComponent) },
         {path:'categories', loadComponent:()=> import('./components/categories/categories.component').then((c)=> c.CategoriesComponent)},
         {path:'about', loadComponent:()=> import('./components/about/about.component').then((c)=> c.AboutComponent)},
         { path: 'details/:id', loadComponent: () => import('./components/details/details.component').then(c => c.DetailsComponent) },
-        { path: 'cart', loadComponent: () => import('./components/cart/cart.component').then(c => c.CartComponent), canActivate: [authGuard] },
-        { path: 'wishlist', loadComponent: () => import('./components/wishlist/wishlist.component').then(c => c.WishlistComponent), canActivate: [authGuard] },
+        // { path: 'cart', loadComponent: () => import('./components/cart/cart.component').then(c => c.CartComponent), canActivate: [authGuard] },
+        // { path: 'wishlist', loadComponent: () => import('./components/wishlist/wishlist.component').then(c => c.WishlistComponent), canActivate: [authGuard] },
         { path: 'user', loadComponent: () => import('./components/user/user.component').then(c => c.UserComponent), canActivate: [authGuard] },
-        { path: 'allorders', loadComponent: () => import('./components/allorders/allorders.component').then(c => c.AllordersComponent), canActivate: [authGuard] },
+        { path: 'orders', loadComponent: () => import('./components/orders/orders.component').then(c => c.OrdersComponent), canActivate: [authGuard] },
         { path: 'orders/:id', loadComponent: () => import('./components/orders/orders.component').then(c => c.OrdersComponent), canActivate: [authGuard] },
         ]
     },
@@ -46,6 +48,8 @@ export const routes: Routes = [
         { path: 'dashboard', loadComponent: () => import('./components/admin-dashboard/admin-dashboard.component').then(c => c.AdminDashboardComponent) },
         { path: 'users', loadComponent: () => import('./components/admin-users/admin-users.component').then(c => c.AdminUsersComponent) },
         { path: 'products', loadComponent: () => import('./components/admin-products/admin-products.component').then(c => c.AdminProductsComponent) },
+        { path: 'allorders', loadComponent: () => import('./components/allorders/allorders.component').then(c => c.AllordersComponent)},
+
         ]
     },
     { path: '**', loadComponent: () => import('./components/notfound/notfound.component').then(c => c.NotfoundComponent) },
