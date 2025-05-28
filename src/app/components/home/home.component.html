@@ -4,7 +4,7 @@
         <!-- الشريط العلوي -->
         <div
             class="bg-black text-white tracking-[0.2rem] whitespace-nowrap overflow-hidden absolute top-[130px] w-full flex justify-center ">
-            <div class="animate-marquee inline-block pb-2">
+            <div class="animate-marquee inline-block pb-2" @slideFadeRight>
                 <p class="second-font text-4xl leading-5 ">new season - new
                     season - new
                     season - new season - new season - new season - new season -
@@ -76,7 +76,7 @@
     <div class="container p-10">
         <div
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            @for (product of productList(); track product.id)
+            @for (product of productList().slice(0,6); track product.id)
             {
             <div
                 class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative">

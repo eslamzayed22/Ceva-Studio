@@ -2,27 +2,37 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
 import { CartComponent } from '../cart/cart.component';
-import { WishlistComponent } from "../wishlist/wishlist.component";
+import { WishlistComponent } from '../wishlist/wishlist.component';
 
 @Component({
   selector: 'app-nav-user',
   standalone: true,
   imports: [RouterLink, CartComponent, WishlistComponent],
   templateUrl: './nav-user.component.html',
-  styleUrl: './nav-user.component.scss'
+  styleUrl: './nav-user.component.scss',
 })
 export class NavUserComponent implements OnInit {
-  readonly _AuthService = inject(AuthService)
+  readonly _AuthService = inject(AuthService);
 
+  isDarkMode = false;
+  isCartOpen = false;
+  isWishlistOpen = false;
   isUserDropdownOpen = false;
   isThemeDropdownOpen = false;
   isDropdownOpen = false;
   username: string | null = null;
 
-ngOnInit() {
-  this.username = localStorage.getItem('username');
-}
-  
+  ngOnInit() {
+    this.username = localStorage.getItem('username');
+  }
+
+  setTheme(mode: 'light' | 'dark') {
+    this.isDarkMode = mode === 'dark';
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('theme', mode);
+    this.isThemeDropdownOpen = false; // اختياري: يغلق القائمة بعد الاختيار
+  }
+
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
@@ -43,7 +53,7 @@ ngOnInit() {
       this.isUserDropdownOpen = false;
       this.isDropdownOpen = false;
     }
-    
+
     if (
       !target.closest('#dropdownThemeButton') &&
       !target.closest('#dropdownTheme')

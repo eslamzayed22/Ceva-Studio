@@ -1,14 +1,23 @@
-import { Component } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrl: './cart.component.scss',
+  animations: [
+      trigger('slideFadeRight', [
+        transition(':enter', [
+          style({ transform: 'translatex(150px)', opacity: 0 }), 
+          animate('0.5s ease-out', style({ transform: 'translateY(0)', opacity: 1 }))  
+        ])
+      ])
+    ]
 })
 export class CartComponent {
-  isOpen = false;
+  isOpen = true;
+  @Output() close = new EventEmitter<void>();
 
   cartItems = [
     { id: 1, name: 'iPhone 15', price: 999, quantity: 1, image: 'https://via.placeholder.com/80' },
@@ -19,15 +28,12 @@ export class CartComponent {
     return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }
 
-  openCart() {
-    this.isOpen = true;
-  }
-
-  closeCart() {
-    this.isOpen = false;
-  }
-
   removeItem(item: any) {
     this.cartItems = this.cartItems.filter(i => i.id !== item.id);
+  }
+
+  // Call this from template to emit close event
+  closeCart() {
+    this.close.emit();
   }
 }

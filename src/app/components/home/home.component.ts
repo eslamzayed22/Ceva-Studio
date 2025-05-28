@@ -3,18 +3,17 @@ import { ProductsService } from '../../core/services/products.service';
 import { Subscription } from 'rxjs';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CurrencyPipe],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  
 })
 export class HomeComponent {
   private readonly _ProductsService = inject (ProductsService);
-
   
     productList : WritableSignal<IProduct[]> = signal([])
   
