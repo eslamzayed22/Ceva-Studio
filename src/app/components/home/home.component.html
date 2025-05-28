@@ -75,43 +75,71 @@
 <section class="bg-white dark:bg-[#0d0d0d]">
     <div class="container p-10">
         <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            @for (product of productList().slice(0,6); track product.id)
+            class="card grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
+            @for (product of productList(); track product.id)
             {
             <div
-                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative">
-                <a href="#">
-                    <img class="pb-8 rounded-t-lg"
-                        [src]="product.imageCover"
-                        [alt]="product.title" />
-                </a>
-                @if (product.price > 1000) { 
-                    <div
+                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative group">
+
+                <!-- صورة المنتج -->
+                <img class="rounded-t-lg"
+                    [src]="product.imageCover"
+                    [alt]="product.title" />
+
+                <!-- خصم لو السعر فوق 1000 -->
+                @if (product.price > 1000) {
+                <div
                     class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                     -25%
-                    </div>
+                </div>
                 }
+
+                <!-- أيقونة القلب -->
                 <div
                     class="icon-heart absolute top-[0.8rem] right-[1rem] cursor-pointer">
                     <i class="fa-regular fa-heart text-xl"></i>
                 </div>
-                <div class="px-5 pb-5">
-                    <a href="#">
-                        <h5
-                            class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{product.title}}</h5>
-                    </a>
-                    <div class="flex items-center mt-2.5 mb-5">
-                    </div>
+
+                <!-- قائمة المقاسات تظهر عند hover على الصورة أو الزر -->
+                <div
+                    class="absolute bottom-[110px] left-1/2 w-full -translate-x-1/2 translate-y-5 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 
+                    transition-all duration-300 ease-out bg-white dark:bg-black p-3 justify-center gap-2 flex z-10  shadow-md">
+                    @for (size of sizes; track size) {
+                    <button
+                        class="px-2 py-1 text-xs rounded bg-gray-200 dark:bg-[#0d0d0d] text-black dark:text-white hover:bg-yellow-500 dark:hover:text-black"
+                        (click)="selectSize(product.id, size)"
+                        [class.bg-yellow-500]="selectedSizes[product.id] === size"
+                        [class.text-black]="selectedSizes[product.id] === size">
+                        {{ size }}
+                    </button>
+                    }
+                </div>
+
+                <!-- تفاصيل المنتج -->
+                <div class="px-5 py-5">
+                    <h5
+                        class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pb-3">
+                        {{ product.title }}
+                    </h5>
+
                     <div class="flex items-center justify-between">
                         <span
-                            class="text-2xl font-bold text-gray-900 dark:text-white">{{product.price
-                            | currency}}</span>
-                        <a href="#"
-                            class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center uppercase">Add
-                            to basket</a>
+                            class="text-2xl font-bold text-gray-900 dark:text-white">
+                            {{ product.price | currency }}
+                        </span>
+                        <!-- التحذير -->
+                        @if (showWarning[product.id]) {
+                        <small class="text-red-500 text-xs">Please select a size</small>
+                        }
+                        <!-- Add to basket -->
+                        <button type="button" (click)="addToBasket(product.id)"
+                            class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-[11px] px-3 py-2 text-center uppercase">
+                            Add to basket
+                        </button>
                     </div>
                 </div>
             </div>
+
             }
         </div>
     </div>

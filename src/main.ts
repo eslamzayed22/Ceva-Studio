@@ -5,3 +5,10 @@ import { setTheme } from './assets/theme-toggle';
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
+
+(window as any).setTheme = setTheme;
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.documentElement.classList.add('dark');
+}
