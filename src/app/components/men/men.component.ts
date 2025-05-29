@@ -9,11 +9,12 @@ import { ProductsService } from '../../core/services/products.service';
 import { Subscription } from 'rxjs';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-men',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe],
   templateUrl: './men.component.html',
   styleUrl: './men.component.scss',
 })
@@ -34,7 +35,6 @@ export class MenComponent implements OnInit {
     });
   }
 
-  sizes = ['S', 'M', 'L', 'XL'];
   selectedSizes: { [productId: string]: string } = {};
   showWarning: { [productId: string]: boolean } = {};
 

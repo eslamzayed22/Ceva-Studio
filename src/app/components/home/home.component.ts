@@ -9,11 +9,12 @@ import { ProductsService } from '../../core/services/products.service';
 import { Subscription } from 'rxjs';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -33,7 +34,6 @@ export class HomeComponent {
     });
   }
 
-  sizes = ['S', 'M', 'L', 'XL'];
   selectedSizes: { [productId: string]: string } = {};
   showWarning: { [productId: string]: boolean } = {};
 

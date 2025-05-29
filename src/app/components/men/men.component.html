@@ -19,10 +19,10 @@
             @for (product of productList(); track product.id)
             {
             <div
-                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative group">
-
+                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative group" >
+                
                 <!-- صورة المنتج -->
-                <img class="rounded-t-lg"
+                <img class="rounded-t-lg cursor-pointer" [routerLink]="['/details', product.id]"
                     [src]="product.imageCover"
                     [alt]="product.title" />
 
@@ -44,15 +44,15 @@
                 <div
                     class="absolute bottom-[110px] left-1/2 w-full -translate-x-1/2 translate-y-5 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 
                     transition-all duration-300 ease-out bg-white dark:bg-black p-3 justify-center gap-2 flex z-10">
-                    @for (size of sizes; track size) {
-                    <button
-                        class="px-2 py-1 text-xs rounded bg-gray-200 dark:bg-[#0d0d0d] text-black dark:text-white hover:bg-yellow-500 dark:hover:text-black"
-                        (click)="selectSize(product.id, size)"
-                        [class.bg-yellow-500]="selectedSizes[product.id] === size"
-                        [class.text-black]="selectedSizes[product.id] === size">
-                        {{ size }}
-                    </button>
-                    }
+                    @for (size of product.sizes; track size) {
+                        <button
+                            class="px-2 py-1 mr-8 text-xs uppercase rounded bg-gray-200 dark:bg-black text-black dark:text-white hover:bg-yellow-500 dark:hover:text-black"
+                            (click)="selectSize(product.id, size)"
+                            [class.bg-yellow-500]="selectedSizes[product.id] === size"
+                            [class.text-black]="selectedSizes[product.id] === size">
+                            {{ size }}
+                        </button>
+                        }
                 </div>
 
                 <!-- تفاصيل المنتج -->
@@ -67,16 +67,17 @@
                             class="text-2xl font-bold text-gray-900 dark:text-white">
                             {{ product.price | currency }}
                         </span>
-                        <!-- التحذير -->
-                        @if (showWarning[product.id]) {
-                        <small class="text-red-500 text-xs">Please select a size</small>
-                        }
+                        
                         <!-- Add to basket -->
                         <button type="button" (click)="addToBasket(product.id)"
                             class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-[11px] px-3 py-2 text-center uppercase">
                             Add to basket
                         </button>
                     </div>
+                    <!-- التحذير -->
+                    @if (showWarning[product.id]) {
+                        <small class="text-red-500 text-xs flex justify-center">Please select a size</small>
+                    }
                 </div>
             </div>
 

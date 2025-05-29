@@ -22,3 +22,8 @@ $second-font: "Bodoni Moda", serif;
 .animate-marquee {
   animation: marquee 60s linear infinite;
 }
+
+.ngx-spinner-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
