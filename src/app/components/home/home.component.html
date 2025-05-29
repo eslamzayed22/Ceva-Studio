@@ -73,16 +73,31 @@
 </section>
 
 <section class="bg-white dark:bg-[#0d0d0d]">
-    <div class="container p-10">
+    <div
+        class="z-40 bg-black text-white tracking-[0.2rem] whitespace-nowrap overflow-hidden absolute top-[130px] w-full flex justify-center ">
+        <div class="animate-marquee inline-block pb-2">
+            <p class="second-font text-4xl leading-5 ">new season - new
+                season - new
+                season - new season - new season - new season - new season -
+                new season - new season - new season new season - new season
+                - new season - new season - new season - new season - new
+                season - new season - new season - new season - new season -
+                new season - new season - new season - new season - new
+                season - new season - new season - new season - new season -
+                new season - new season </p>
+        </div>
+    </div>
+    <div class="container p-10 mt-20">
         <div
             class="card grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
             @for (product of productList(); track product.id)
             {
             <div
-                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative group" >
+                class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative ">
 
                 <!-- صورة المنتج -->
-                <img class="rounded-t-lg cursor-pointer" [routerLink]="['/details', product.id]"
+                <img class="rounded-t-lg cursor-pointer"
+                    [routerLink]="['/details', product.id]"
                     [src]="product.imageCover"
                     [alt]="product.title" />
 
@@ -100,11 +115,13 @@
                     <i class="fa-regular fa-heart text-xl"></i>
                 </div>
 
-                <!-- قائمة المقاسات تظهر عند hover على الصورة أو الزر -->
-                <div
-                    class="absolute bottom-[110px] left-1/2 w-full -translate-x-1/2 translate-y-5 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 
-                    transition-all duration-300 ease-out bg-white dark:bg-black p-3 justify-center gap-2 flex z-10 ">
-                    @for (size of product.sizes; track size) {
+                <!-- تفاصيل المنتج -->
+                <div class="px-5 py-5 group">
+                    <!-- قائمة المقاسات تظهر عند hover على الصورة أو الزر -->
+                    <div
+                        class="absolute bottom-[110px] left-1/2 w-full -translate-x-1/2 translate-y-5 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 
+                        transition-all duration-300 ease-out bg-white dark:bg-black p-3 justify-center gap-2 flex z-10">
+                        @for (size of product.sizes; track size) {
                         <button
                             class="px-2 py-1 mr-8 text-xs uppercase rounded bg-gray-200 dark:bg-black text-black dark:text-white hover:bg-yellow-500 dark:hover:text-black"
                             (click)="selectSize(product.id, size)"
@@ -113,10 +130,7 @@
                             {{ size }}
                         </button>
                         }
-                </div>
-
-                <!-- تفاصيل المنتج -->
-                <div class="px-5 py-5">
+                    </div>
                     <h5
                         class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pb-3">
                         {{ product.title }}
@@ -127,6 +141,7 @@
                             class="text-2xl font-bold text-gray-900 dark:text-white">
                             {{ product.price | currency }}
                         </span>
+
                         <!-- Add to basket -->
                         <button type="button" (click)="addToBasket(product.id)"
                             class="bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black font-medium rounded-lg text-[11px] px-3 py-2 text-center uppercase">
@@ -135,7 +150,9 @@
                     </div>
                     <!-- التحذير -->
                     @if (showWarning[product.id]) {
-                        <small class="text-red-500 text-xs flex justify-center">Please select a size</small>
+                    <small
+                        class="text-red-500 text-xs flex justify-center">Please
+                        select a size</small>
                     }
                 </div>
             </div>
