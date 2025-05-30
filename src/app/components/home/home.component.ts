@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  OnDestroy,
   OnInit,
   signal,
   WritableSignal,
@@ -8,18 +9,20 @@ import {
 import { ProductsService } from '../../core/services/products.service';
 import { Subscription } from 'rxjs';
 import { IProduct } from '../../core/interfaces/iproduct';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   private readonly _ProductsService = inject(ProductsService);
+  private readonly _CartService = inject(CartService);
 
   productList: WritableSignal<IProduct[]> = signal([]);
 
@@ -34,22 +37,39 @@ export class HomeComponent {
     });
   }
 
-  selectedSizes: { [productId: string]: string } = {};
-  showWarning: { [productId: string]: boolean } = {};
-
-  selectSize(productId: string, size: string) {
-    this.selectedSizes[productId] = size;
-    this.showWarning[productId] = false;
+  ngOnDestroy(): void {
+    this.getAllProductSub?.unsubscribe();
   }
 
   addToBasket(productId: string) {
     const selectedSize = this.selectedSizes[productId];
+
     if (!selectedSize) {
       this.showWarning[productId] = true;
       return;
     }
 
-    console.log(`Product ${productId} added with size ${selectedSize}`);
+    this._CartService
+      .addToCart({
+        productId,
+        size: selectedSize,
+      })
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this._CartService.cartNumber.set(res.numOfCartItems);
+          // this._ToastrService.success(res.message);
+        },
+      });
+
+    this.showWarning[productId] = false;
+  }
+
+  selectedSizes: { [productId: string]: string } = {};
+  showWarning: { [productId: string]: boolean } = {};
+
+  selectSize(productId: string, size: string) {
+    this.selectedSizes[productId] = size;
     this.showWarning[productId] = false;
   }
 }

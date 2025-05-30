@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/enviuronment';
 import { jwtDecode } from 'jwt-decode';
+import { isPlatformBrowser } from '@angular/common';
 
 interface DecodedToken {
   userId: string;
@@ -22,6 +23,8 @@ interface UserInfo {
 export class AuthService {
   private readonly _HttpClient = inject(HttpClient);
   private readonly _Router = inject(Router);
+  private readonly _PLATFORM_ID  = inject(PLATFORM_ID)
+  
 
   private userDataSubject = new BehaviorSubject<UserInfo | null>(null);
   userData$ = this.userDataSubject.asObservable();
@@ -62,7 +65,10 @@ export class AuthService {
 
   // ✅ فحص تسجيل الدخول
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userToken');
+    if(isPlatformBrowser(this._PLATFORM_ID)) {
+      return !!localStorage.getItem('userToken');
+    }
+    return false;
   }
 
   // ✅ فحص إذا المستخدم أدمن

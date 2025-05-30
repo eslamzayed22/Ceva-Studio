@@ -90,7 +90,7 @@
     <div class="container p-10 mt-20">
         <div
             class="card grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            @for (product of productList(); track product.id)
+            @for (product of productList().slice(0 , 6); track product.id)
             {
             <div
                 class="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-[#1a1a1d] relative ">
@@ -101,8 +101,8 @@
                     [src]="product.imageCover"
                     [alt]="product.title" />
 
-                <!-- خصم لو السعر فوق 1000 -->
-                @if (product.price > 1000) {
+                <!-- خصم لو السعر فوق 1299 -->
+                @if (product.price > 1299) {
                 <div
                     class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                     -25%
@@ -139,7 +139,7 @@
                     <div class="flex items-center justify-between">
                         <span
                             class="text-2xl font-bold text-gray-900 dark:text-white">
-                            {{ product.price | currency }}
+                            {{ product.price | number }} EGP
                         </span>
 
                         <!-- Add to basket -->
@@ -156,8 +156,14 @@
                     }
                 </div>
             </div>
-
             }
+
+        </div>
+        <div class="text-center my-10">
+            <a href routerLink="/men"
+                class="inline-block bg-black dark:bg-yellow-500 dark:text-black hover:bg-yellow-500 text-white hover:text-black  py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105">
+                Explore More Products
+            </a>
         </div>
     </div>
 </section>

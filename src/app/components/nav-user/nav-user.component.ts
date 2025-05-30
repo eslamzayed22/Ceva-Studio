@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
 import { CartComponent } from '../cart/cart.component';
 import { WishlistComponent } from '../wishlist/wishlist.component';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-nav-user',
@@ -13,6 +14,7 @@ import { WishlistComponent } from '../wishlist/wishlist.component';
 })
 export class NavUserComponent implements OnInit {
   readonly _AuthService = inject(AuthService);
+  private readonly _PLATFORM_ID= inject(PLATFORM_ID);
 
   isDarkMode = false;
   isCartOpen = false;
@@ -23,7 +25,9 @@ export class NavUserComponent implements OnInit {
   username: string | null = null;
 
   ngOnInit() {
-    this.username = localStorage.getItem('username');
+    if (isPlatformBrowser(this._PLATFORM_ID)) {
+      this.username = localStorage.getItem('username');
+    }
   }
 
   setTheme(mode: 'light' | 'dark') {

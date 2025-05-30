@@ -10,7 +10,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
   animations: [
     trigger('slideFadeRight', [
       transition(':enter', [
-        style({ transform: 'translatex(150px)', opacity: 0 }),
+        style({ transform: 'translateX(150px)', opacity: 0 }),
         animate(
           '0.5s ease-out',
           style({ transform: 'translateY(0)', opacity: 1 })

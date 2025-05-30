@@ -15,6 +15,7 @@ import {
 } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { headerInterceptor } from './core/interceptors/header.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions()
     ),
     provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([loadingInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([headerInterceptor, loadingInterceptor])),
     provideAnimations(),
     importProvidersFrom(NgxSpinnerModule),
   ],

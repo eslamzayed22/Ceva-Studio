@@ -1,20 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { ProductsService } from '../../core/services/products.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { CurrencyPipe, NgStyle } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgStyle } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CurrencyPipe, NgStyle],
+  imports: [NgStyle, CommonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })
-export class DetailsComponent {
-  private readonly _ActivatedRoute =inject(ActivatedRoute)
+export class DetailsComponent implements OnInit, OnDestroy {
+  private readonly _ActivatedRoute = inject(ActivatedRoute);
   private readonly _ProductsService = inject(ProductsService);
+  private readonly _CartService = inject(CartService);
+
   // private readonly _NgxSpinnerService = inject(NgxSpinnerService);
 
   selectedColor: string = '';
@@ -23,6 +27,7 @@ export class DetailsComponent {
   detalisProduct: IProduct = {} as IProduct;
   selectedImage: string | null = null;
 
+  private getDetailsProductSub = new Subscription();
 
   ngOnInit(): void {
     // this._NgxSpinnerService.show()
@@ -30,38 +35,59 @@ export class DetailsComponent {
       next: (p) => {
         let idProduct = p.get('id');
 
-        this._ProductsService.getSpecificProduct(idProduct).subscribe({
-          next: (res) => {
-            this.detalisProduct = res.data;
-            // this._NgxSpinnerService.hide()
-            // console.log(res.data);
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
+        this.getDetailsProductSub = this._ProductsService
+          .getSpecificProduct(idProduct)
+          .subscribe({
+            next: (res) => {
+              this.detalisProduct = res.data;
+              // this._NgxSpinnerService.hide()
+              // console.log(res.data);
+            },
+          });
       },
     });
   }
 
+  ngOnDestroy(): void {
+    this.getDetailsProductSub.unsubscribe();
+  }
+
+  addToBasket(productId: string) {
+    const selectedSize = this.selectedSizes[productId];
+
+  if (!selectedSize) {
+    this.showWarning[productId] = true;
+    return;
+  }
+
+  this._CartService
+    .addToCart({
+      productId,
+      size: selectedSize,
+      color: this.selectedColor, // ✅ ضفنا اللون هنا
+    })
+    .subscribe({
+      next: (res) => {
+        console.log(res);
+        this._CartService.cartNumber.set(res.numOfCartItems);
+        // this._ToastrService.success(res.message);
+      },
+    });
+
+  this.showWarning[productId] = false;
+  }
 
   selectedSizes: { [productId: string]: string } = {};
   showWarning: { [productId: string]: boolean } = {};
 
-  selectSize(productId: string, size: string) {
-  this.selectedSizes[productId] = size;
-  this.selectedSize = size; // تحديث المتغير العام للعرض
+  toggleSize(productId: string, size: string) {
+  if (this.selectedSizes[productId] === size) {
+    delete this.selectedSizes[productId]; // إلغاء التحديد
+    this.selectedSize = ''; // تحديث العرض أيضاً
+  } else {
+    this.selectedSizes[productId] = size;
+    this.selectedSize = size;
+  }
   this.showWarning[productId] = false;
 }
-
-  addToBasket(productId: string) {
-    const selectedSize = this.selectedSizes[productId];
-    if (!selectedSize) {
-      this.showWarning[productId] = true;
-      return;
-    }
-
-    console.log(`Product ${productId} added with size ${selectedSize}`);
-    this.showWarning[productId] = false;
-  }
 }
