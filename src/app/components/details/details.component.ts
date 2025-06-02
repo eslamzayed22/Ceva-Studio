@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { ProductsService } from '../../core/services/products.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -6,6 +6,7 @@ import { CommonModule, CurrencyPipe, NgStyle } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-details',
@@ -18,13 +19,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private readonly _ActivatedRoute = inject(ActivatedRoute);
   private readonly _ProductsService = inject(ProductsService);
   private readonly _CartService = inject(CartService);
+  private readonly _WishlistService = inject(WishlistService);
 
   // private readonly _NgxSpinnerService = inject(NgxSpinnerService);
 
   selectedColor: string = '';
   selectedSize: string = '';
+  selectedSizes: { [productId: string]: string } = {};
+  showWarning: { [productId: string]: boolean } = {};
 
   detalisProduct: IProduct = {} as IProduct;
+  wishlistData: WritableSignal<string[]> = signal([]);
+
   selectedImage: string | null = null;
 
   private getDetailsProductSub = new Subscription();
@@ -59,7 +65,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.showWarning[productId] = true;
       return;
     }
-
     this._CartService
       .addToCart({
         productId,
@@ -70,15 +75,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
         next: (res) => {
           console.log(res);
           this._CartService.cartNumber.set(res.numOfCartItems);
-          // this._ToastrService.success(res.message);
         },
       });
-
     this.showWarning[productId] = false;
   }
 
-  selectedSizes: { [productId: string]: string } = {};
-  showWarning: { [productId: string]: boolean } = {};
+  addToWishlist(id: string): void {
+    this._WishlistService.addToWishlist(id).subscribe({
+      next: (res) => {
+        // console.log(res);
+        this.wishlistData.set(res.data);
+        this._WishlistService.wishNumber.set(res.data.length);
+      },
+    });
+  }
+
 
   toggleSize(productId: string, size: string) {
     if (this.selectedSizes[productId] === size) {

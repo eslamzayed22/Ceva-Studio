@@ -28,7 +28,7 @@
                 <div class="relative">
                     <img [src]="selectedImage || detalisProduct.imageCover" alt
                         class="w-full rounded-t-lg">
-                    <div class="absolute top-[0.8rem] right-[1rem]">
+                    <div class="absolute top-[0.8rem] right-[1rem]"  (click)="addToWishlist(detalisProduct.id)">
                         <i
                             class="fa-regular fa-heart text-2xl cursor-pointer"></i>
                     </div>
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="flex items-center mb-2">
-                        <p class="dark:text-white">
+                        <p class="text-[#067d62]">
                             {{ detalisProduct.quantity > 0 ? 'In Stock' :
                             'Out of Stock' }} ({{ detalisProduct.quantity }})
                         </p>
