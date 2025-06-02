@@ -1,10 +1,23 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
+import { Iwishlist } from '../../core/interfaces/iwishlist';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, CommonModule],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.scss',
   animations: [
@@ -23,34 +36,71 @@ export class WishlistComponent {
   isOpen = true;
   @Output() close = new EventEmitter<void>();
 
-  wishlistItems = [
-    {
-      id: 1,
-      name: 'iPhone 15',
-      price: 999,
-      quantity: 1,
-      image: 'https://via.placeholder.com/80',
-    },
-    {
-      id: 2,
-      name: 'AirPods Pro',
-      price: 199,
-      quantity: 2,
-      image: 'https://via.placeholder.com/80',
-    },
-  ];
+  private readonly _WishlistService = inject(WishlistService);
+  private readonly _CartService = inject(CartService);
 
-  get subtotal(): number {
-    return this.wishlistItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+  wishlistDetails: WritableSignal<Iwishlist[]> = signal([]);
+  private getAllWishlistItem!: Subscription;
+
+  selectedSizes: { [productId: string]: string } = {};
+  selectedSize: string = '';
+  showWarning: { [productId: string]: boolean } = {};
+  
+
+  toggleSize(productId: string, size: string) {
+    if (this.selectedSizes[productId] === size) {
+      delete this.selectedSizes[productId]; // إلغاء التحديد
+      this.selectedSize = ''; // تحديث العرض أيضاً
+    } else {
+      this.selectedSizes[productId] = size;
+      this.selectedSize = size;
+    }
+    this.showWarning[productId] = false;
   }
 
-  removeItem(item: any) {
-    this.wishlistItems = this.wishlistItems.filter((i) => i.id !== item.id);
+  ngOnInit(): void {
+    this.getAllWishlistItems();
   }
 
+  ngOnDestroy(): void {
+    if (this.getAllWishlistItem) {
+      this.getAllWishlistItem.unsubscribe();
+    }
+  }
+  getAllWishlistItems(): void {
+    this.getAllWishlistItem = this._WishlistService
+      .getProductsWishlist()
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.wishlistDetails.set(res.data);
+        },
+      });
+  }
+
+  removeWishItem(id: string): void {
+    this._WishlistService.deleteSpecificItem(id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.getAllWishlistItems();
+        this._WishlistService.wishNumber.set(res.data.length);
+      },
+    });
+  }
+  addToBasket(productId: string): void {
+    const selectedSize = this.selectedSizes[productId];
+
+    if (!selectedSize) {
+      this.showWarning[productId] = true;
+      return;
+    }
+    this._CartService.addToCart({ productId, size: selectedSize }).subscribe({
+      next: (res) => {
+        // console.log(res);
+        this._CartService.cartNumber.set(res.numOfCartItems);
+      },
+    });
+  }
   closeWishlist() {
     this.close.emit();
   }

@@ -1,6 +1,4 @@
 export interface Icart {
-}
-export interface Icart {
   cartItems: CartItem[];
   user: string;
   _id: string;

@@ -12,6 +12,7 @@ import { IProduct } from '../../core/interfaces/iproduct';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-home',
@@ -23,8 +24,14 @@ import { CartService } from '../../core/services/cart.service';
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly _ProductsService = inject(ProductsService);
   private readonly _CartService = inject(CartService);
+  private readonly _WishlistService = inject(WishlistService);
+
+  selectedSize: string = '';
+  selectedSizes: { [productId: string]: string } = {};
+  showWarning: { [productId: string]: boolean } = {};
 
   productList: WritableSignal<IProduct[]> = signal([]);
+  wishlistData: WritableSignal<string[]> = signal([]);
 
   getAllProductSub!: Subscription;
 
@@ -65,11 +72,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.showWarning[productId] = false;
   }
 
-  selectedSizes: { [productId: string]: string } = {};
-  showWarning: { [productId: string]: boolean } = {};
+  addToWishlist(id: string): void {
+    this._WishlistService.addToWishlist(id).subscribe({
+      next: (res) => {
+        // console.log(res);
+        this.wishlistData.set(res.data);
+        this._WishlistService.wishNumber.set(res.data.length);
+      },
+    });
+  }
 
-  selectSize(productId: string, size: string) {
-    this.selectedSizes[productId] = size;
+
+  toggleSize(productId: string, size: string) {
+    if (this.selectedSizes[productId] === size) {
+      delete this.selectedSizes[productId]; // إلغاء التحديد
+      this.selectedSize = ''; // تحديث العرض أيضاً
+    } else {
+      this.selectedSizes[productId] = size;
+      this.selectedSize = size;
+    }
     this.showWarning[productId] = false;
   }
 }

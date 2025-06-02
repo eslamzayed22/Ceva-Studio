@@ -37,7 +37,7 @@
 
                 <!-- أيقونة القلب -->
                 <div
-                    class="icon-heart absolute top-[0.8rem] right-[1rem] cursor-pointer">
+                    class="icon-heart absolute top-[0.8rem] right-[1rem] cursor-pointer"(click)="addToWishlist(product.id)" > 
                     <i class="fa-regular fa-heart text-xl"></i>
                 </div>
 
@@ -50,7 +50,7 @@
                         @for (size of product.sizes; track size) {
                         <button
                             class="px-2 py-1 mr-8 text-xs uppercase rounded bg-gray-200 dark:bg-black text-black dark:text-white hover:bg-yellow-500 dark:hover:text-black"
-                            (click)="selectSize(product.id, size)"
+                            (click)="toggleSize(product.id, size)"
                             [class.bg-yellow-500]="selectedSizes[product.id] === size"
                             [class.text-black]="selectedSizes[product.id] === size">
                             {{ size }}

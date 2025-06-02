@@ -12,16 +12,16 @@
     @slideFadeRight>
 
     <div class="p-4 flex justify-between items-center border-b dark:text-white">
-        <h2 class="text-xl font-bold uppercase">Your Cart</h2>
+        <h2 class="text-xl font-bold uppercase">Your Basket</h2>
         <button (click)="closeCart()"
             class="text-gray-600 hover:text-black text-xl">&times;</button>
     </div>
 
     <div class="p-4 space-y-4 overflow-y-auto h-[calc(100%-150px)]">
-        @if (cartDetails().cartItems.length > 0) {
+
         @for (item of cartDetails().cartItems; track item._id) {
         <div class="flex items-center gap-4 dark:text-white">
-            <img  [routerLink]="['/details', item.product]" (click)="closeCart()"
+            <img [routerLink]="['/details', item.product]" (click)="closeCart()"
                 [src]="item.imageCover"
                 alt="product"
                 class="w-16 h-20 object-cover rounded cursor-pointer" />
@@ -30,7 +30,8 @@
                 <p class="font-medium text-lg">{{ item.price | number }} EGP</p>
                 <p class="font-medium text-sm">{{ item.title }}</p>
                 <p class="text-xs text-gray-500 ">
-                    Size: {{ item.size | uppercase }} | Color: {{ item.color || 'Default' }}
+                    Size: {{ item.size | uppercase }} | Color: {{ item.color ||
+                    'Default' }}
                 </p>
                 <!-- <p class="text-xs text-gray-500">
                     {{ item.price | number }} EGP x {{ item.quantity }} = {{
@@ -39,8 +40,9 @@
                 </p> -->
             </div>
             <div class="flex flex-col justify-between">
-                <button  (click)="removeItemFromCart(item._id)"
-                    class="text-sm"><i class="fa-solid fa-trash-can hover:bg-gray-200 dark:hover:bg-gray-500"></i></button>
+                <button (click)="removeItemFromCart(item._id)"
+                    class="text-sm"><i
+                        class="fa-solid fa-trash-can hover:bg-gray-200 dark:hover:bg-gray-500"></i></button>
                 <!-- Quantity controls -->
                 <div class="flex items-center gap-2 mt-5">
                     <button
@@ -57,7 +59,15 @@
             </div>
         </div>
         }
-        } @else {
+        @if (hasItems()) {
+            <div class="flex justify-center">
+            <button class="w-32  text-xs bg-red-700 text-white py-2 rounded"
+                (click)="clearUserBasket()">
+                Clear Your Basket
+            </button>
+        </div>
+        }
+        @if (hasError()) {
         <p class="text-center text-gray-500">Your Basket is empty.</p>
         }
     </div>

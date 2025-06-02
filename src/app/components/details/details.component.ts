@@ -55,39 +55,39 @@ export class DetailsComponent implements OnInit, OnDestroy {
   addToBasket(productId: string) {
     const selectedSize = this.selectedSizes[productId];
 
-  if (!selectedSize) {
-    this.showWarning[productId] = true;
-    return;
-  }
+    if (!selectedSize) {
+      this.showWarning[productId] = true;
+      return;
+    }
 
-  this._CartService
-    .addToCart({
-      productId,
-      size: selectedSize,
-      color: this.selectedColor, // ✅ ضفنا اللون هنا
-    })
-    .subscribe({
-      next: (res) => {
-        console.log(res);
-        this._CartService.cartNumber.set(res.numOfCartItems);
-        // this._ToastrService.success(res.message);
-      },
-    });
+    this._CartService
+      .addToCart({
+        productId,
+        size: selectedSize,
+        color: this.selectedColor, // ✅ ضفنا اللون هنا
+      })
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this._CartService.cartNumber.set(res.numOfCartItems);
+          // this._ToastrService.success(res.message);
+        },
+      });
 
-  this.showWarning[productId] = false;
+    this.showWarning[productId] = false;
   }
 
   selectedSizes: { [productId: string]: string } = {};
   showWarning: { [productId: string]: boolean } = {};
 
   toggleSize(productId: string, size: string) {
-  if (this.selectedSizes[productId] === size) {
-    delete this.selectedSizes[productId]; // إلغاء التحديد
-    this.selectedSize = ''; // تحديث العرض أيضاً
-  } else {
-    this.selectedSizes[productId] = size;
-    this.selectedSize = size;
+    if (this.selectedSizes[productId] === size) {
+      delete this.selectedSizes[productId]; // إلغاء التحديد
+      this.selectedSize = ''; // تحديث العرض أيضاً
+    } else {
+      this.selectedSizes[productId] = size;
+      this.selectedSize = size;
+    }
+    this.showWarning[productId] = false;
   }
-  this.showWarning[productId] = false;
-}
 }
