@@ -35,18 +35,9 @@ export class LoginComponent {
         next: (res) => {
           console.log(res);
           if (res.token) {
-            localStorage.setItem('username', res.data.name);
-            this._AuthService.saveUserData(
-              res.token,
-              res.data.name,
-              res.data.role
-            );
-
-            if (res.data.role === 'admin') {
-              this._Router.navigate(['/dashboard']);
-            } else {
-              this._Router.navigate(['/home']);
-            }
+            localStorage.setItem('userToken' , res.token)
+            this._AuthService.saveUserData()
+            this._Router.navigate(['/home' ])
           }
         },
         error: (err) => {

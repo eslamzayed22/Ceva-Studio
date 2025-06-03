@@ -27,7 +27,7 @@ export class AuthService {
   
 
   private userDataSubject = new BehaviorSubject<UserInfo | null>(null);
-  userData$ = this.userDataSubject.asObservable();
+  userData:any = null;
 
   // ✅ تسجيل
   setRegisterForm(data: object): Observable<any> {
@@ -46,20 +46,9 @@ export class AuthService {
   }
 
   // ✅ حفظ بيانات المستخدم في الميموري
-  saveUserData(token: string, name: string, role: string): void {
-    localStorage.setItem('userToken', token); // يمكن لاحقاً استبداله بـ sessionStorage
-    localStorage.setItem('username', name);
-
-    try {
-      const decoded: DecodedToken = jwtDecode(token);
-      if (decoded?.exp * 1000 > Date.now()) {
-        this.userDataSubject.next({ username: name, role });
-      } else {
-        this.logout();
-      }
-    } catch (e) {
-      console.error('error in token decode', e);
-      this.logout();
+  saveUserData(): void {
+    if (typeof localStorage.getItem('userToken') !== null) {
+      this.userData = jwtDecode(localStorage.getItem('userToken')!);
     }
   }
 
@@ -80,7 +69,6 @@ export class AuthService {
   // ✅ تسجيل الخروج
   logout(): void {
     localStorage.removeItem('userToken');
-    localStorage.removeItem('username');
     this.userDataSubject.next(null);
     this._Router.navigate(['/login']);
   }

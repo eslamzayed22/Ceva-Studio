@@ -2,7 +2,6 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { BlankLayoutComponent } from './layouts/blank-layout/blank-layout.component';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { adminGuard } from './core/guards/admin.guard';
 import { authGuard } from './core/guards/auth.guard';
 import { logedGuard } from './core/guards/loged.guard';
@@ -36,20 +35,6 @@ export const routes: Routes = [
         { path: 'login', loadComponent: () => import('./components/login/login.component').then(c => c.LoginComponent) },
         { path: 'register', loadComponent: () => import('./components/register/register.component').then(c => c.RegisterComponent) },
         { path: 'forget', loadComponent: () => import('./components/forgetpassword/forgetpassword.component').then(c => c.ForgetpasswordComponent) },
-        ]
-    },
-    
-    {
-        path: '',
-        component: AdminLayoutComponent,
-        canActivate: [adminGuard],
-        children: [
-        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-        { path: 'dashboard', loadComponent: () => import('./components/admin-dashboard/admin-dashboard.component').then(c => c.AdminDashboardComponent) },
-        { path: 'users', loadComponent: () => import('./components/admin-users/admin-users.component').then(c => c.AdminUsersComponent) },
-        { path: 'products', loadComponent: () => import('./components/admin-products/admin-products.component').then(c => c.AdminProductsComponent) },
-        { path: 'allorders', loadComponent: () => import('./components/allorders/allorders.component').then(c => c.AllordersComponent)},
-
         ]
     },
     { path: '**', loadComponent: () => import('./components/notfound/notfound.component').then(c => c.NotfoundComponent) },

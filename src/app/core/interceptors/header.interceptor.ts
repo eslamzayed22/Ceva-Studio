@@ -11,7 +11,7 @@ export const headerInterceptor: HttpInterceptorFn = (req, next) => {
     // console.log('userToken:', userToken);
     
     if (userToken !== null) {
-      if (req.url.includes('cart') || req.url.includes('orders') || req.url.includes('wishlist')) {
+      if (req.url.includes('cart') || req.url.includes('orders') || req.url.includes('wishlist') || req.url.includes('users') || req.url.includes('addresses')) {
         req = req.clone({
           setHeaders: {
             Authorization: `Bearer ${userToken}`
