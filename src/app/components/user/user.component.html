@@ -167,16 +167,16 @@
                             <label
                                 class="text-sm text-gray-600 dark:text-gray-300 mb-1">Name</label>
                             <input type="text" placeholder="{{ userData.name }}"
-                                class="border border-gray-300 dark:bg-black border-[#8d8f91] px-4 py-2 rounded font-semibold text-black dark:text-white focus:outline-none focus:ring-1 focus:ring-black">
+                                class="border  dark:bg-black border-[#8d8f91] px-4 py-2 rounded font-semibold text-black dark:text-white focus:outline-none focus:ring-1 focus:ring-black">
                         </div>
                     </div>
 
                     <div
                         class="flex flex-col md:flex-row gap-2 w-full md:w-1/2">
                         <div
-                            class="flex items-center border border-gray-300 border-[#8d8f91] dark:bg-black rounded px-4 py-2 w-full">
+                            class="flex items-center border  border-[#8d8f91] dark:bg-black rounded px-4 py-2 w-full">
                             <span
-                                class="text-black  dark:text-white font-semibold mr-2 pr-4 border-r border-gray-300 border-[#8d8f91]">+20
+                                class="text-black  dark:text-white font-semibold mr-2 pr-4 border-r  border-[#8d8f91]">+20
                             </span>
                             <input type="tel" placeholder="{{ userData.phone }}"
                                 class="flex-1 border-none dark:bg-black text-gray-600 dark:text-gray-300">
@@ -191,7 +191,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div
-                            class="flex items-center justify-between border border-gray-300 border-[#8d8f91] rounded px-4 py-3 dark:bg-black">
+                            class="flex items-center justify-between border  border-[#8d8f91] rounded px-4 py-3 dark:bg-black">
                             <div class="flex items-center gap-2 ">
                                 <svg class="w-5 h-5 text-black dark:text-white"
                                     fill="none"
@@ -209,7 +209,7 @@
                         </div>
 
                         <div
-                            class="flex items-center justify-between border border-gray-300 border-[#8d8f91] rounded px-4 py-3 dark:bg-black">
+                            class="flex items-center justify-between border  border-[#8d8f91] rounded px-4 py-3 dark:bg-black">
                             <div class="flex items-center gap-2">
                                 <svg class="w-5 h-5 text-black dark:text-white"
                                     fill="none"
@@ -226,35 +226,35 @@
                                 class="text-sm text-black dark:text-white hover:underline">
                                 {{ showPasswordForm ? 'Cancel' : 'Change' }}
                             </button>
-                            @if (showPasswordForm) {
-                            <form
-                                [formGroup]="passwordForm"
-                                (ngSubmit)="updatePass()"
-                                class="mt-4 space-y-4">
-                                <div>
-                                    <label
-                                        class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        New Password
-                                    </label>
-                                    <input
-                                        type="password"
-                                        formControlName="password"
-                                        class="w-full px-4 py-2 border rounded"
-                                        placeholder="Enter new password" />
-                                </div>
-                                <button
-                                    type="submit"
-                                    class="bg-black text-white text-sm px-4 py-2 rounded font-semibold hover:opacity-90"
-                                    [disabled]="passwordForm.invalid">
-                                    Save New Password
-                                </button>
-                            </form>
-                            }
                         </div>
+                        @if (showPasswordForm) {
+                        <form
+                            [formGroup]="passwordForm"
+                            (ngSubmit)="updatePass()"
+                            class="mt-4 space-y-4">
+                            <div>
+                                <label
+                                    class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Change Your Password
+                                </label>
+                                <input
+                                    type="password"
+                                    formControlName="password"
+                                    class="w-full px-4 py-2 border rounded"
+                                    placeholder="Enter new password" />
+                            </div>
+                            <button
+                                type="submit"
+                                class="bg-black text-white text-sm px-4 py-2 rounded font-semibold hover:opacity-90"
+                                [disabled]="passwordForm.invalid">
+                                Save New Password
+                            </button>
+                        </form>
+                        }
                     </div>
 
                     <div
-                        class="w-full md:w-1/2 border border-gray-300 border-[#8d8f91] rounded px-4 py-3 flex items-center gap-2 dark:bg-black"
+                        class="w-full md:w-1/2 border  border-[#8d8f91] rounded px-4 py-3 flex items-center gap-2 dark:bg-black"
                         (click)="deleteAccount()">
                         <svg class="w-5 h-5 text-black dark:text-white"
                             fill="none"
@@ -281,7 +281,7 @@
             <div
                 class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                 @for (address of userAddresses; track $index) {
-                <div class="border p-4 rounded shadow dark:text-white">
+                <div class="border border-[#8d8f91] p-4 rounded shadow dark:text-white">
                     <h3 class="text-lg font-semibold">Address: {{$index +
                         1}}</h3>
                     <h3><strong>Location:</strong> {{ address.alias }}</h3>
@@ -302,38 +302,38 @@
                 class="max-w-lg mx-auto space-y-4">
                 <div>
                     <label
-                        class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Alias</label>
+                        class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
                     <input type="text" formControlName="alias"
-                        class="w-full dark:text-white dark:bg-black px-4 py-2 border rounded" />
+                        class="w-full dark:text-white dark:bg-black px-4 py-2 border border-[#8d8f91] rounded" />
                 </div>
 
                 <div>
                     <label
                         class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Details</label>
                     <input type="text" formControlName="details"
-                        class="w-full dark:text-white dark:bg-black px-4 py-2 border rounded" />
+                        class="w-full dark:text-white dark:bg-black px-4 py-2 border border-[#8d8f91] rounded" />
                 </div>
 
                 <div>
                     <label
                         class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
                     <input type="text" formControlName="phone"
-                        class="w-full dark:text-white dark:bg-black px-4 py-2 border rounded" />
+                        class="w-full dark:text-white dark:bg-black px-4 py-2 border border-[#8d8f91] rounded" />
                 </div>
 
                 <div>
                     <label
                         class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">City</label>
                     <input type="text" formControlName="city"
-                        class="w-full dark:text-white dark:bg-black px-4 py-2 border rounded" />
+                        class="w-full dark:text-white dark:bg-black px-4 py-2 border border-[#8d8f91] rounded" />
                 </div>
 
                 <div>
                     <label
                         class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Postal
-                        Code</label>
-                    <input type="text" formControlName="postalCode"
-                        class="w-full dark:text-white dark:bg-black px-4 py-2 border rounded" />
+                        Code (Optional)</label>
+                    <input type="text" formControlName="postalCode" 
+                        class="w-full dark:text-white dark:bg-black px-4 py-2 border border-[#8d8f91] rounded" />
                 </div>
 
                 <button type="submit"

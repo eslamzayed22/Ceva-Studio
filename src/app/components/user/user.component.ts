@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
       details: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
       city: ['', Validators.required],
-      postalCode: ['', Validators.required],
+      postalCode: [''],
     });
 
     this.passwordForm = this._fb.group({
