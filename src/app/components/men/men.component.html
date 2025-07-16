@@ -25,7 +25,8 @@
                 <img class="rounded-t-lg cursor-pointer"
                     [routerLink]="['/details', product.id]"
                     [src]="product.imageCover"
-                    [alt]="product.title" />
+                    [alt]="product.title"
+                    (error)="product.imageCover = '../../../assets/imgError.png'" />
 
                 <!-- خصم لو السعر فوق 1299 -->
                 @if (product.price > 1299) {

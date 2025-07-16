@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
           this._CartService.cartNumber.set(res.numOfCartItems);
           // this._ToastrService.success(res.message);
         },
@@ -81,7 +81,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     });
   }
-
 
   toggleSize(productId: string, size: string) {
     if (this.selectedSizes[productId] === size) {

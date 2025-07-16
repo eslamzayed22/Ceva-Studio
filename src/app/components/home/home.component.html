@@ -58,7 +58,8 @@
     class="bg-gray-100 text-black dark:bg-black dark:text-white hidden lg:block my-10">
     <div class="text-center py-10 ">
         <h2
-            class="text-6xl font-bold uppercase mb-4 tracking-wider font-second">Brilliance in Simplicity</h2>
+            class="text-6xl font-bold uppercase mb-4 tracking-wider font-second">Brilliance
+            in Simplicity</h2>
         <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto mb-8">
             This season isn't just about fashion — it's about making a
             statement. Discover bold pieces,
@@ -98,7 +99,8 @@
                 <img class="rounded-t-lg cursor-pointer"
                     [routerLink]="['/details', product.id]"
                     [src]="product.imageCover"
-                    [alt]="product.title" />
+                    [alt]="product.title"
+                    (error)="product.imageCover = '../../../assets/imgError.png'" />
 
                 <!-- خصم لو السعر فوق 1299 -->
                 @if (product.price > 1299) {
