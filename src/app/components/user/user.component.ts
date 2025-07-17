@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { IuserAddress } from '../../core/interfaces/iuser-address';
 import { AuthService } from '../../core/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -21,6 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class UserComponent implements OnInit {
   private readonly _UserService = inject(UserService);
+  private readonly _ActivatedRoute = inject(ActivatedRoute);
   readonly _AuthService = inject(AuthService);
 
   private readonly _fb = inject(FormBuilder);
@@ -67,6 +69,14 @@ export class UserComponent implements OnInit {
     this.passwordForm = this._fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+     // Check query param for section
+  this._ActivatedRoute.queryParams.subscribe(params => {
+    const section = params['section'] as 'orders' | 'details' | 'addresses';
+    if (section) {
+      this.setSection(section);
+    }
+  });
   }
 
   deleteAccount(): void {

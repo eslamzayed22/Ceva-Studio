@@ -44,7 +44,8 @@
                 data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
                 <i class="fas fa-user text-lg text-black dark:text-white"></i>
-                <i class="fa-solid fa-angle-down text-black dark:text-white"></i>
+                <i
+                    class="fa-solid fa-angle-down text-black dark:text-white"></i>
                 <div class="hidden 2xl:block ">
                     @if (_AuthService.isLoggedIn()) {
                     <span
@@ -114,11 +115,15 @@
                     @if (_AuthService.isLoggedIn()) {
                     <li>
                         <a href routerLink="/user"
-                            class="block px-4 py-2 text-sm border-b border-[#8d8f91] text-gray-700 hover:bg-gray-100 dark:hover:text-black dark:text-gray-200">Settings</a>
+                            [queryParams]="{ section: 'orders' }"
+                            (click)="closeUserDropdown()"
+                            class="block px-4 py-2 text-sm border-b border-[#8d8f91] text-gray-700 hover:bg-gray-100 dark:hover:text-black dark:text-gray-200">Orders</a>
                     </li>
                     <li>
-                        <a href routerLink="/user" 
-                            class="block px-4 py-2 text-sm border-b border-[#8d8f91] text-gray-700 hover:bg-gray-100 dark:hover:text-black dark:text-gray-200">Orders</a>
+                        <a href routerLink="/user"
+                            [queryParams]="{ section: 'details' }"
+                            (click)="closeUserDropdown()"
+                            class="block px-4 py-2 text-sm border-b border-[#8d8f91] text-gray-700 hover:bg-gray-100 dark:hover:text-black dark:text-gray-200">Settings</a>
                     </li>
                     <li>
                         <a href (click)="_AuthService.logout()"
